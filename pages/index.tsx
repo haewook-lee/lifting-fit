@@ -1,8 +1,8 @@
-import Head from 'next/head'
-import clientPromise from '../lib/mongodb'
-import { InferGetServerSidePropsType } from 'next'
+import Head from "next/head"
+import clientPromise from "../lib/mongodb"
+import { InferGetServerSidePropsType } from "next"
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ context }: any) {
   try {
     await clientPromise
     // `await clientPromise` will use the default database passed in the MONGODB_URI
@@ -44,7 +44,7 @@ export default function Home({
           <h2 className="subtitle">You are connected to MongoDB</h2>
         ) : (
           <h2 className="subtitle">
-            You are NOT connected to MongoDB. Check the <code>README.md</code>{' '}
+            You are NOT connected to MongoDB. Check the <code>README.md</code>{" "}
             for instructions.
           </h2>
         )}
@@ -92,7 +92,7 @@ export default function Home({
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
         </a>
       </footer>
