@@ -1,3 +1,16 @@
+TO-DO LIST
+
+- CREATE USERS
+  - Authorization
+    - username/password x
+    - register x
+    - token creation
+    - store token
+    - page keep track of user
+    - profile page?
+- WORKOUT LOGS
+- DATA VISUALIZATION
+
 ## Example app using MongoDB
 
 [MongoDB](https://www.mongodb.com/) is a general purpose, document-based, distributed database built for modern application developers and for the cloud era. This example will show you how to connect to and use MongoDB as your backend for your Next.js app.
