@@ -31,9 +31,24 @@ export default async function handler(
 
     res.status(200).json({ users: JSON.parse(JSON.stringify(data)) })
   } else if ((req.method = "POST")) {
-    const addCustomer = async (user: UserModel): Promise<ObjectId> => {
-      const mongoClient = await clientPromise
+    const mongoClient = await clientPromise
 
+    const userExists = async (user: UserModel) => {
+      const response = await mongoClient
+        .db("liftingfit")
+        .collection("users")
+        .findOne({ email: user.email })
+
+      return response
+    }
+
+    const existingUser = await userExists(req.body)
+
+    if (existingUser) {
+      return res.status(422).json({ message: "Email already in use!" })
+    }
+
+    const addCustomer = async (user: UserModel): Promise<ObjectId> => {
       const response = await mongoClient
         .db("liftingfit")
         .collection("users")
@@ -44,7 +59,7 @@ export default async function handler(
 
     const newUser = await addCustomer(req.body)
 
-    res.status(200).json(newUser)
+    res.status(200).json({ message: newUser })
   }
 
   //   const users = UserModel
