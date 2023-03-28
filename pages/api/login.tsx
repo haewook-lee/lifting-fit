@@ -27,7 +27,7 @@ export default async function handler(
       const response = await mongoClient
         .db("liftingfit")
         .collection("users")
-        .findOne({ username: user.username, password: user.password })
+        .findOne({ email: user.email, password: user.password })
 
       return response
     }
@@ -35,20 +35,26 @@ export default async function handler(
     const existingUser = await userExists(req.body)
 
     if (!existingUser) {
-      return res.status(422).json({ message: "Invalid Username or Password" })
+      return res.status(422).json({ message: "Invalid Email or Password" })
     }
 
-    // const addCustomer = async (user: UserModel): Promise<ObjectId> => {
-    //   const response = await mongoClient
-    //     .db("liftingfit")
-    //     .collection("users")
-    //     .insertOne(user)
+    const token = jwt.sign(
+      { userId: existingUser._id },
+      process.env.TOKEN_SECRET as string,
+      {
+        expiresIn: "1d",
+      }
+    )
 
-    //   return response.insertedId
-    // }
+    setCookies("token", token, {
+      req,
+      res,
+      maxAge: 60 * 60 * 24, // 1 day
+      path: "/",
+    })
 
-    // const newUser = await addCustomer(req.body)
+    console.log(token)
 
-    res.status(200).json({ message: "Log in success!" })
+    res.status(201).json({ message: "Log in success!", token: token })
   }
 }

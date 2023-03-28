@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography"
 import Link from "@mui/material/Link"
 import ButtonGroup from "@mui/material/ButtonGroup"
 import Button from "@mui/material/Button"
-import Navbar from "../components/Navbar"
 import Grid from "@mui/material/Grid"
 
 export default function App({ Component, pageProps }: AppProps) {

@@ -61,30 +61,4 @@ export default async function handler(
 
     res.status(200).json({ message: newUser })
   }
-
-  //   const users = UserModel
-  //   if (req.method === "POST") {
-  //     const userExist = await users.findOne({ email: email })
-
-  //     if (userExist)
-  //       return res.status(422).json({ message: "Email already in use!" })
-
-  //     const user = new User({ username, email, password })
-  //     await user.save()
-
-  //     const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
-  //       expiresIn: "1d",
-  //     })
-
-  //     setCookies("token", token, {
-  //       req,
-  //       res,
-  //       maxAge: 60 * 60 * 24, // 1 day
-  //       path: "/",
-  //     })
-
-  //     res.status(201).json(user)
-  //   } else {
-  //     res.status(424).json({ message: "Invalid method!" })
-  //   }
 }
