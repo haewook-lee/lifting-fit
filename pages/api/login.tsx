@@ -1,5 +1,4 @@
 import dbConnect from "../../lib/dbConnect"
-import UserModel from "../../models/user.model"
 import jwt from "jsonwebtoken"
 import { setCookies } from "cookies-next"
 import { NextApiRequest, NextApiResponse } from "next"
@@ -10,6 +9,12 @@ type UserModel = {
   username: String
   email: String
   password: String
+}
+
+export interface TokenInterface {
+  userId: ObjectId
+  iat: Number
+  exp: Number
 }
 
 type UserList = {
@@ -53,8 +58,9 @@ export default async function handler(
       path: "/",
     })
 
-    console.log(token)
-
-    res.status(201).json({ message: "Log in success!", token: token })
+    res.status(201).json({
+      message: "Log in success!",
+      token: token,
+    })
   }
 }

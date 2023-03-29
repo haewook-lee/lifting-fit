@@ -12,11 +12,13 @@ import InputAdornment from "@mui/material/InputAdornment"
 import OutlinedInput from "@mui/material/OutlinedInput"
 import InputLabel from "@mui/material/InputLabel"
 import IconButton from "@mui/material/IconButton"
+import { useRouter } from "next/router"
+import axios from "axios"
 
 const theme = createTheme()
 
 export default function LoginPage() {
-  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const [showPassword, setShowPassword] = React.useState(false)
@@ -29,9 +31,21 @@ export default function LoginPage() {
     event.preventDefault()
   }
 
+  const router = useRouter()
+
   const signupHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // signup logic
+
+    try {
+      const res = await axios.post("/api/login", {
+        email: email,
+        password: password,
+      })
+
+      router.push("/")
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -82,7 +96,7 @@ export default function LoginPage() {
             >
               <TextField
                 id="outlined-basic margin-none fullWidth"
-                label="Username"
+                label="Email"
                 variant="outlined"
               />
               <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">

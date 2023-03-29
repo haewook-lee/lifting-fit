@@ -9,9 +9,18 @@ import Link from "@mui/material/Link"
 import ButtonGroup from "@mui/material/ButtonGroup"
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Grid"
+import { useRouter } from "next/router"
+import { removeCookies } from "cookies-next"
 
 export default function App({ Component, pageProps }: AppProps) {
   const baseURL = process.env.BASE_URL
+
+  const router = useRouter()
+
+  const signoutHandler = () => {
+    removeCookies("token")
+    router.push("/")
+  }
 
   function Copyright() {
     return (
