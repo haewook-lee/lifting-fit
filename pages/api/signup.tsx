@@ -1,7 +1,4 @@
-import dbConnect from "../../lib/dbConnect"
 import UserModel from "../../models/user.model"
-import jwt from "jsonwebtoken"
-import { setCookies } from "cookies-next"
 import { NextApiRequest, NextApiResponse } from "next"
 import clientPromise from "../../lib/mongodb"
 import { ObjectId } from "mongodb"
