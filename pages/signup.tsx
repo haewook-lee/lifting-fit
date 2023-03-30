@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
@@ -14,6 +14,7 @@ import InputLabel from "@mui/material/InputLabel"
 import IconButton from "@mui/material/IconButton"
 import { useRouter } from "next/router"
 import axios from "axios"
+import DataContext from "../lib/dataContext"
 
 const theme = createTheme()
 
@@ -33,6 +34,8 @@ export default function SignupPage() {
   }
 
   const router = useRouter()
+
+  const loggedUser = useContext(DataContext)
 
   const signupHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

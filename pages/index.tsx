@@ -3,10 +3,14 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { useContext, useState } from "react"
+import DataContext from "../lib/dataContext"
 
 const theme = createTheme()
 
 export default function Home() {
+  const loggedUser = useContext(DataContext)
+
   return (
     <ThemeProvider theme={theme}>
       <main>
