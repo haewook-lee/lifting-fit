@@ -98,16 +98,21 @@ export default function SignupPage() {
               }}
               noValidate
               autoComplete="off"
+              onSubmit={signupHandler}
             >
               <TextField
                 id="outlined-basic margin-none fullWidth"
                 label="Username"
                 variant="outlined"
+                onChange={(e) => setUsername(e.target.value)}
+                required
               />
               <TextField
                 id="outlined-basic margin-none fullWidth"
                 label="Email"
                 variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
@@ -129,9 +134,13 @@ export default function SignupPage() {
                     </InputAdornment>
                   }
                   label="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </FormControl>
-              <Button variant="contained">Submit</Button>
+              <Button variant="contained" type="submit">
+                Submit
+              </Button>
             </Box>
             {/* <form onSubmit={signupHandler}>
               <input

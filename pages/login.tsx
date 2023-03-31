@@ -36,7 +36,7 @@ export default function LoginPage() {
 
   const loggedUser = useContext(DataContext)
 
-  const signupHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
@@ -96,11 +96,14 @@ export default function LoginPage() {
               }}
               noValidate
               autoComplete="off"
+              onSubmit={loginHandler}
             >
               <TextField
                 id="outlined-basic margin-none fullWidth"
                 label="Email"
                 variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
@@ -122,9 +125,13 @@ export default function LoginPage() {
                     </InputAdornment>
                   }
                   label="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </FormControl>
-              <Button variant="contained">Submit</Button>
+              <Button variant="contained" type="submit">
+                Submit
+              </Button>
             </Box>
           </Container>
         </Box>

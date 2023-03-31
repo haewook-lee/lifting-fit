@@ -43,11 +43,13 @@ export default function App({ Component, pageProps }: AppProps) {
   // down to the components
   const [loggedUser, setLoggedUser] = useState<string | null>("")
 
-  useEffect(() => {
-    checkLoggedIn().then((value: string | null) => {
-      setLoggedUser(value)
-    })
-  }, [])
+  // checkLoggedIn().then((value: string) => setLoggedUser(value))
+
+  // useEffect(() => {
+  //   // checkLoggedIn().then((value: string | null) => {
+  //     // setLoggedUser(value)
+  //   // })
+  // }, [])
 
   return (
     <>
