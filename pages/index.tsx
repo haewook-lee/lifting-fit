@@ -5,6 +5,8 @@ import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useContext, useState } from "react"
 import DataContext from "../lib/dataContext"
+import { NextApiRequest, NextApiResponse } from "next"
+import checkLoggedIn from "../lib/checkLoggedIn"
 
 const theme = createTheme()
 
@@ -44,4 +46,24 @@ export default function Home() {
       </main>
     </ThemeProvider>
   )
+}
+
+export async function getServerSideProps(req: any, res: NextApiResponse) {
+  const user = await checkLoggedIn(req.req, res)
+  // console.log("hello", typeof req.req.cookies["token"])
+  console.log(user)
+  if (!user) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+      props: {},
+    }
+  }
+  return {
+    props: {
+      user,
+    },
+  }
 }

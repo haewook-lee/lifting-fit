@@ -15,6 +15,8 @@ import IconButton from "@mui/material/IconButton"
 import { useRouter } from "next/router"
 import axios from "axios"
 import DataContext from "../lib/dataContext"
+import { NextApiRequest, NextApiResponse } from "next"
+import checkLoggedIn from "../lib/checkLoggedIn"
 
 const theme = createTheme()
 
@@ -142,30 +144,25 @@ export default function SignupPage() {
                 Submit
               </Button>
             </Box>
-            {/* <form onSubmit={signupHandler}>
-              <input
-                type="text"
-                placeholder="Name"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              />
-              <button>SignUp</button>
-            </form> */}
           </Container>
         </Box>
       </main>
     </ThemeProvider>
   )
+}
+
+export async function getServerSideProps(req: any, res: NextApiResponse) {
+  const user = await checkLoggedIn(req.req, res)
+  if (user) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+      props: {},
+    }
+  }
+  return {
+    props: {},
+  }
 }

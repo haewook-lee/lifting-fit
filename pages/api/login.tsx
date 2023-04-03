@@ -55,7 +55,7 @@ export default async function handler(
       req,
       res,
       maxAge: 60 * 60 * 24, // 1 day
-      //   path: "/",
+      path: "/",
     })
 
     // setCookies("token", token, {

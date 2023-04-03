@@ -15,6 +15,8 @@ import IconButton from "@mui/material/IconButton"
 import { useRouter } from "next/router"
 import axios from "axios"
 import DataContext from "../lib/dataContext"
+import { NextApiRequest, NextApiResponse } from "next"
+import checkLoggedIn from "../lib/checkLoggedIn"
 
 const theme = createTheme()
 
@@ -50,6 +52,8 @@ export default function LoginPage() {
       console.log(error)
     }
   }
+
+  console.log("hey")
 
   return (
     <ThemeProvider theme={theme}>
@@ -138,4 +142,20 @@ export default function LoginPage() {
       </main>
     </ThemeProvider>
   )
+}
+
+export async function getServerSideProps(req: any, res: NextApiResponse) {
+  const user = await checkLoggedIn(req.req, res)
+  if (user) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+      props: {},
+    }
+  }
+  return {
+    props: {},
+  }
 }

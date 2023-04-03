@@ -4,21 +4,25 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { ObjectId } from "mongodb"
 import clientPromise from "./mongodb"
 
-export default async function checkLoggedIn(): Promise<any> {
+export default async function checkLoggedIn(
+  req: any,
+  res: NextApiResponse
+): Promise<any> {
   interface TokenInterface {
     userId: string
     iat: number
     exp: number
   }
 
-  const token = getCookie("token")
+  // const token = getCookie("token", { req, res })
+  const token: string = req.cookies["token"]
 
-  if (!token) return
+  if (!token) return false
 
   const mongoClient = await clientPromise
 
   const data = jwt.verify(
-    token as any,
+    token as string,
     process.env.TOKEN_SECRET as string
   ) as unknown as TokenInterface
 
