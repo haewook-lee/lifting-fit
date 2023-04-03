@@ -1,4 +1,3 @@
-import dbConnect from "../../lib/dbConnect"
 import jwt from "jsonwebtoken"
 import { setCookies } from "cookies-next"
 import { NextApiRequest, NextApiResponse } from "next"

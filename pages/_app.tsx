@@ -1,5 +1,4 @@
 import type { AppProps } from "next/app"
-// import { NextApiRequest, NextApiResponse } from "next"
 import AppBar from "@mui/material/AppBar"
 import FitnessCenter from "@mui/icons-material/FitnessCenter"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -12,7 +11,6 @@ import Button from "@mui/material/Button"
 import { useRouter } from "next/router"
 import { removeCookies } from "cookies-next"
 import DataContext from "../lib/dataContext"
-import checkLoggedIn from "../lib/checkLoggedIn"
 import { useState, useEffect } from "react"
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -58,7 +56,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static">
             <Toolbar>
-              {/* <Grid justifyContent="space-between" direction="row"> */}
               <ButtonGroup variant="text" aria-label="text button group">
                 <Button color="inherit" href={baseURL + "/"}>
                   <FitnessCenter />
@@ -73,7 +70,6 @@ export default function App({ Component, pageProps }: AppProps) {
                   Login
                 </Button>
               </ButtonGroup>
-              {/* </Grid> */}
             </Toolbar>
           </AppBar>
         </Box>

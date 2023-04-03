@@ -1,4 +1,3 @@
-import { getCookie } from "cookies-next"
 import jwt from "jsonwebtoken"
 import { NextApiRequest, NextApiResponse } from "next"
 import { ObjectId } from "mongodb"
