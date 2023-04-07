@@ -4,6 +4,7 @@ import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
+import Link from "@mui/material/Link"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import Visibility from "@mui/icons-material/Visibility"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
@@ -136,6 +137,18 @@ export default function LoginPage() {
               <Button variant="contained" type="submit">
                 Submit
               </Button>
+              <Typography
+                variant="h6"
+                align="center"
+                color="text.primary"
+                gutterBottom
+              >
+                Click{" "}
+                <Link href="/signup" underline="hover">
+                  here
+                </Link>{" "}
+                to sign up!
+              </Typography>
             </Box>
           </Container>
         </Box>
