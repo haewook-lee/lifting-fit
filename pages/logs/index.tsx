@@ -4,15 +4,12 @@ import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useContext, useState } from "react"
-import DataContext from "../lib/dataContext"
 import { NextApiRequest, NextApiResponse } from "next"
-import checkLoggedIn from "../lib/checkLoggedIn"
+import checkLoggedIn from "../../lib/checkLoggedIn"
 
 const theme = createTheme()
 
 export default function Home() {
-  const loggedUser = useContext(DataContext)
-
   return (
     <ThemeProvider theme={theme}>
       <main>
@@ -31,7 +28,7 @@ export default function Home() {
               color="text.primary"
               gutterBottom
             >
-              Lifting Fit
+              Logs
             </Typography>
             <Typography
               variant="h5"
@@ -39,11 +36,31 @@ export default function Home() {
               color="text.secondary"
               paragraph
             >
-              Workouts tracker and exercise database
+              Your personal workout logs
             </Typography>
           </Container>
         </Box>
       </main>
     </ThemeProvider>
   )
+}
+
+export async function getServerSideProps(req: any, res: NextApiResponse) {
+  const user = await checkLoggedIn(req.req, res)
+  // console.log("hello", typeof req.req.cookies["token"])
+  console.log(user)
+  if (!user) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+      props: {},
+    }
+  }
+  return {
+    props: {
+      user,
+    },
+  }
 }

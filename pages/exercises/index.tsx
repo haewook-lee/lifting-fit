@@ -4,15 +4,12 @@ import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useContext, useState } from "react"
-import DataContext from "../lib/dataContext"
 import { NextApiRequest, NextApiResponse } from "next"
-import checkLoggedIn from "../lib/checkLoggedIn"
+import checkLoggedIn from "../../lib/checkLoggedIn"
 
 const theme = createTheme()
 
 export default function Home() {
-  const loggedUser = useContext(DataContext)
-
   return (
     <ThemeProvider theme={theme}>
       <main>
@@ -31,7 +28,7 @@ export default function Home() {
               color="text.primary"
               gutterBottom
             >
-              Lifting Fit
+              Exercises
             </Typography>
             <Typography
               variant="h5"
@@ -39,7 +36,7 @@ export default function Home() {
               color="text.secondary"
               paragraph
             >
-              Workouts tracker and exercise database
+              Exercises with quick descriptions/videos
             </Typography>
           </Container>
         </Box>
