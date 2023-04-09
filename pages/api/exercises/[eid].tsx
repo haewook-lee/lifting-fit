@@ -23,5 +23,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(404).json("Exercise Not Found!")
   }
 
-  res.status(200).json({ user: data })
+  res.status(200).json({ data })
 }

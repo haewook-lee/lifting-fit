@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { ObjectId } from "mongodb"
 import clientPromise from "../../../lib/mongodb"
 
 export const getAllExercises = async () => {
@@ -17,11 +16,13 @@ export const getAllExercises = async () => {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const data = await getAllExercises()
 
+  console.log(typeof data)
   console.log(data[1])
+  console.log(JSON.parse(JSON.stringify(data)).map((value: any) => value))
 
   if (!data) {
     res.status(404).json("Exercise Not Found!")
   }
 
-  res.status(200).json({ user: data })
+  res.status(200).json({ data })
 }
