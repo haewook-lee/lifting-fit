@@ -8,6 +8,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import checkLoggedIn from "../../lib/checkLoggedIn"
 
 const theme = createTheme()
+const baseurl = process.env.BASEURL
 
 export default function Home() {
   return (
@@ -53,7 +54,7 @@ export async function getServerSideProps(req: any, res: NextApiResponse) {
     return {
       redirect: {
         permanent: false,
-        destination: "/login",
+        destination: baseurl + "/login",
       },
       props: {},
     }

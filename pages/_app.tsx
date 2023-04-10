@@ -14,7 +14,7 @@ import DataContext from "../lib/dataContext"
 import { useState, useEffect } from "react"
 
 export default function App({ Component, pageProps }: AppProps) {
-  const baseURL = process.env.BASE_URL
+  const baseurl = process.env.BASEURL
 
   const router = useRouter()
 
@@ -57,16 +57,16 @@ export default function App({ Component, pageProps }: AppProps) {
           <AppBar position="static">
             <Toolbar>
               <ButtonGroup variant="text" aria-label="text button group">
-                <Button color="inherit" href={baseURL + "/"}>
+                <Button color="inherit" href={baseurl + "/"}>
                   <FitnessCenter />
                 </Button>
-                <Button color="inherit" href={baseURL + "/exercises"}>
+                <Button color="inherit" href={baseurl + "/exercises"}>
                   Exercises
                 </Button>
-                <Button color="inherit" href={baseURL + "/logs"}>
+                <Button color="inherit" href={baseurl + "/logs"}>
                   Logs
                 </Button>
-                <Button color="inherit" href={baseURL + "/login"}>
+                <Button color="inherit" href={baseurl + "/login"}>
                   Login
                 </Button>
               </ButtonGroup>

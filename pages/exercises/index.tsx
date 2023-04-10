@@ -12,6 +12,7 @@ import clientPromise from "../../lib/mongodb"
 import { getAllExercises } from "../api/exercises"
 
 const theme = createTheme()
+const baseurl = process.env.BASEURL
 
 interface exerObject {
   exercises: exer[]
@@ -73,7 +74,7 @@ export default function Home(exercises: exerObject) {
               <Grid item xs={8} sm={4} md={4} key={key}>
                 <Link
                   variant="h4"
-                  href={"/exercises/" + exercise.slug}
+                  href={baseurl + "/exercises/" + exercise.slug}
                   underline="none"
                 >
                   {exercise.name}

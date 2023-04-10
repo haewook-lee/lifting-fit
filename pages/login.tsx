@@ -20,6 +20,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import checkLoggedIn from "../lib/checkLoggedIn"
 
 const theme = createTheme()
+const baseurl = process.env.BASEURL
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -43,18 +44,16 @@ export default function LoginPage() {
     e.preventDefault()
 
     try {
-      const res = await axios.post("/api/login", {
+      const res = await axios.post(baseurl + "/api/login", {
         email: email,
         password: password,
       })
 
-      router.push("/")
+      router.push(baseurl + "/")
     } catch (error) {
       console.log(error)
     }
   }
-
-  console.log("hey")
 
   return (
     <ThemeProvider theme={theme}>
@@ -144,7 +143,7 @@ export default function LoginPage() {
                 gutterBottom
               >
                 Click{" "}
-                <Link href="/signup" underline="hover">
+                <Link href={baseurl + "/signup"} underline="hover">
                   here
                 </Link>{" "}
                 to sign up!
@@ -163,7 +162,7 @@ export async function getServerSideProps(req: any, res: NextApiResponse) {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: `${baseurl + "/"}`,
       },
       props: {},
     }
