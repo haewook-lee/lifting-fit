@@ -84,7 +84,7 @@ export default function Home(exercises: exerObject) {
                   srcSet={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format&dpr=2 2x`}
                   alt={exercise.name}
                   loading="lazy"
-                  style={{ width: "100%", height: "200px" }}
+                  style={{ width: "100%", height: "auto" }}
                 />
               </Grid>
             ))}
