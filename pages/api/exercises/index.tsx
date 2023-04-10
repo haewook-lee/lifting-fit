@@ -15,10 +15,16 @@ export const getAllExercises = async () => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const data = await getAllExercises()
-
-  console.log(typeof data)
-  console.log(data[1])
-  console.log(JSON.parse(JSON.stringify(data)).map((value: any) => value))
+  // const newDat = JSON.parse(JSON.stringify(data)).map(
+  //   (value: any) => value.slug
+  // )
+  // let paths = []
+  // for (let slug of newDat) {
+  //   paths.push({ params: { slug: slug } })
+  // }
+  // console.log(typeof data)
+  // console.log(data[1])
+  // console.log(paths)
 
   if (!data) {
     res.status(404).json("Exercise Not Found!")

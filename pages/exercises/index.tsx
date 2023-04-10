@@ -3,6 +3,7 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
+import Link from "@mui/material/Link"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useContext, useState } from "react"
 import { NextApiRequest, NextApiResponse } from "next"
@@ -23,6 +24,7 @@ interface exer {
   equipment: string
   type: string
   image: string
+  slug: string
 }
 
 export default function Home(exercises: exerObject) {
@@ -61,7 +63,7 @@ export default function Home(exercises: exerObject) {
         <Grid
           container
           spacing={{ xs: 2, sm: 2, md: 3, lg: 4 }}
-          columns={{ xs: 4, sm: 8, md: 12, lg: 20 }}
+          columns={{ xs: 4, sm: 8, md: 10, lg: 16 }}
           justifyContent="center"
           alignItems="stretch"
           sx={{ p: 1, m: "auto" }}
@@ -69,14 +71,13 @@ export default function Home(exercises: exerObject) {
           {exerciseList &&
             exerciseList.map((exercise, key) => (
               <Grid item xs={8} sm={4} md={4} key={key}>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="text.secondary"
-                  paragraph
+                <Link
+                  variant="h4"
+                  href={"/exercises/" + exercise.slug}
+                  underline="none"
                 >
                   {exercise.name}
-                </Typography>
+                </Link>
                 <img
                   src={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format`}
                   srcSet={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format&dpr=2 2x`}
@@ -84,38 +85,6 @@ export default function Home(exercises: exerObject) {
                   loading="lazy"
                   style={{ width: "100%", height: "200px" }}
                 />
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="text.secondary"
-                  paragraph
-                >
-                  Muscle: {exercise.target}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="text.secondary"
-                  paragraph
-                >
-                  Equipment: {exercise.equipment}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="text.secondary"
-                  paragraph
-                >
-                  Exercise Type: {exercise.type}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="text.secondary"
-                  paragraph
-                >
-                  {exercise.video}
-                </Typography>
               </Grid>
             ))}
         </Grid>
@@ -124,7 +93,7 @@ export default function Home(exercises: exerObject) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   let exercises = await getAllExercises()
   exercises = JSON.parse(JSON.stringify(exercises))
 
