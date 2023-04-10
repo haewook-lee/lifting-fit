@@ -17,7 +17,7 @@ env:
   MONGODB_URI: ${{ secrets.MONGODB_URI }}
   BASEURL: ${{ secrets.BASEURL }}
   TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-  
+
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -82,7 +82,7 @@ jobs:
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Static HTML export with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next export
+        run: ${{ steps.detect-package-manager.outputs.runner }} next start
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
