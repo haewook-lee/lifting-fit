@@ -71,7 +71,7 @@ export default function Home(exercises: exerObject) {
         >
           {exerciseList &&
             exerciseList.map((exercise, key) => (
-              <Grid item xs={8} sm={5} md={5} lg={5} key={key}>
+              <Grid item xs={8} sm={5} md={4} lg={4} key={key}>
                 <Link
                   variant="h4"
                   href={baseurl + "/exercises/" + exercise.slug}
