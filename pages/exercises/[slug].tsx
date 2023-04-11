@@ -63,7 +63,7 @@ export default function Home(data: exerObject) {
           columns={{ xs: 6, sm: 6, md: 6, lg: 6 }}
           justifyContent="center"
           alignItems="stretch"
-          sx={{ p: 1, m: "auto" }}
+          sx={{ p: 1, m: "auto", maxWidth: 725 }}
         >
           {exercise && (
             <Grid item xs={8} sm={4} md={4}>
