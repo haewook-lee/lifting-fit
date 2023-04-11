@@ -4,9 +4,9 @@ TO-DO LIST
   - Authorization
     - username/password x
     - register x
-    - token creation
-    - store token
-    - page keep track of user
+    - token creation x
+    - store token x
+    - page keep track of user x
     - profile page?
 - WORKOUT LOGS
 - DATA VISUALIZATION

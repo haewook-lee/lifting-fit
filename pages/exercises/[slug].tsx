@@ -55,68 +55,59 @@ export default function Home(data: exerObject) {
             >
               {exercise.name}
             </Typography>
+            {exercise && (
+              <>
+                <img
+                  src={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format`}
+                  srcSet={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format&dpr=2 2x`}
+                  alt={exercise.name}
+                  loading="lazy"
+                  style={{ width: "100%", height: "auto" }}
+                />
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="text.secondary"
+                  paragraph
+                >
+                  Muscle: {exercise.target}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="text.secondary"
+                  paragraph
+                >
+                  Equipment: {exercise.equipment}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="text.secondary"
+                  paragraph
+                >
+                  Exercise Type: {exercise.type}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="text.secondary"
+                  paragraph
+                >
+                  Video Tutorial:
+                </Typography>
+                <iframe
+                  src={exercise.video}
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                  title={exercise.name}
+                  width="100%"
+                  height="315"
+                />
+              </>
+            )}
           </Container>
         </Box>
-        <Grid
-          container
-          spacing={{ xs: 2, sm: 2, md: 3, lg: 4 }}
-          columns={{ xs: 6, sm: 6, md: 6, lg: 6 }}
-          justifyContent="center"
-          alignItems="stretch"
-          sx={{ p: 1, m: "auto", maxWidth: 725 }}
-        >
-          {exercise && (
-            <Grid item xs={8} sm={4} md={4}>
-              <img
-                src={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format`}
-                srcSet={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format&dpr=2 2x`}
-                alt={exercise.name}
-                loading="lazy"
-                style={{ width: "100%", height: "auto" }}
-              />
-              <Typography
-                variant="h5"
-                align="center"
-                color="text.secondary"
-                paragraph
-              >
-                Muscle: {exercise.target}
-              </Typography>
-              <Typography
-                variant="h5"
-                align="center"
-                color="text.secondary"
-                paragraph
-              >
-                Equipment: {exercise.equipment}
-              </Typography>
-              <Typography
-                variant="h5"
-                align="center"
-                color="text.secondary"
-                paragraph
-              >
-                Exercise Type: {exercise.type}
-              </Typography>
-              <Typography
-                variant="h5"
-                align="center"
-                color="text.secondary"
-                paragraph
-              >
-                Video Tutorial:
-              </Typography>
-              <iframe
-                src={exercise.video}
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                title={exercise.name}
-                width="100%"
-                height="315"
-              />
-            </Grid>
-          )}
-        </Grid>
       </main>
     </ThemeProvider>
   )
