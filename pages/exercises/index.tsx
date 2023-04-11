@@ -71,7 +71,7 @@ export default function Home(exercises: exerObject) {
         >
           {exerciseList &&
             exerciseList.map((exercise, key) => (
-              <Grid item xs={8} sm={4} md={4} key={key}>
+              <Grid item xs={8} sm={5} md={5} lg={5} key={key}>
                 <Link
                   variant="h4"
                   href={baseurl + "/exercises/" + exercise.slug}
@@ -84,7 +84,7 @@ export default function Home(exercises: exerObject) {
                   srcSet={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format&dpr=2 2x`}
                   alt={exercise.name}
                   loading="lazy"
-                  style={{ width: "100%", height: "246px" }}
+                  style={{ width: "100%", height: "256px" }}
                 />
               </Grid>
             ))}

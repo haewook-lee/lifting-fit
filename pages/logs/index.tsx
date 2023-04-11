@@ -49,7 +49,7 @@ export default function Home() {
 export async function getServerSideProps(req: any, res: NextApiResponse) {
   const user = await checkLoggedIn(req.req, res)
   // console.log("hello", typeof req.req.cookies["token"])
-  console.log(user)
+  // console.log(user)
   if (!user) {
     return {
       redirect: {

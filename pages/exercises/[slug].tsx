@@ -32,8 +32,8 @@ interface exer {
 export default function Home(data: exerObject) {
   const exercise = data.exercises
 
-  console.log(exercise)
-  console.log("here", exercise)
+  // console.log(exercise)
+  // console.log("here", exercise)
 
   return (
     <ThemeProvider theme={theme}>
@@ -57,12 +57,20 @@ export default function Home(data: exerObject) {
             </Typography>
             {exercise && (
               <>
-                <img
+                {/* <img
                   src={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format`}
                   srcSet={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format&dpr=2 2x`}
                   alt={exercise.name}
                   loading="lazy"
                   style={{ width: "100%", height: "auto" }}
+                /> */}
+                <iframe
+                  src={exercise.video}
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                  title={exercise.name}
+                  width="100%"
+                  height="315"
                 />
                 <Typography
                   variant="h5"
@@ -88,22 +96,6 @@ export default function Home(data: exerObject) {
                 >
                   Exercise Type: {exercise.type}
                 </Typography>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="text.secondary"
-                  paragraph
-                >
-                  Video Tutorial:
-                </Typography>
-                <iframe
-                  src={exercise.video}
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                  title={exercise.name}
-                  width="100%"
-                  height="315"
-                />
               </>
             )}
           </Container>
@@ -124,7 +116,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths.push({ params: { slug: slug } })
   }
 
-  console.log("making", paths)
+  // console.log("making", paths)
 
   return {
     paths,
