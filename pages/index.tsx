@@ -41,6 +41,15 @@ export default function Home() {
             >
               Workouts tracker and exercise database
             </Typography>
+            <Typography
+              variant="h5"
+              align="center"
+              color="text.secondary"
+              paragraph
+            >
+              Note: Do not use any important credentials for user login if
+              you're testing it out!
+            </Typography>
           </Container>
         </Box>
       </main>

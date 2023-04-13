@@ -80,8 +80,8 @@ export default function Home(exercises: exerObject) {
                   {exercise.name}
                 </Link>
                 <img
-                  src={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format`}
-                  srcSet={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format&dpr=2 2x`}
+                  src={`${exercise.image}`}
+                  srcSet={`${exercise.image}`}
                   alt={exercise.name}
                   loading="lazy"
                   style={{ width: "100%", height: "256px" }}

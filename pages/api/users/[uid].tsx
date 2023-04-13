@@ -14,6 +14,25 @@ export const getUser = async (id: string | ObjectId) => {
   return data
 }
 
+export const getUserByName = async (username: string | string[]) => {
+  const mongoClient = await clientPromise
+
+  const data = mongoClient
+    .db("liftingfit")
+    .collection("users")
+    .findOne({ username: username })
+
+  return data
+}
+
+export const getAllUsers = async () => {
+  const mongoClient = await clientPromise
+
+  const data = mongoClient.db("liftingfit").collection("users").find().toArray()
+
+  return data
+}
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const uid = req.query.uid!
 
