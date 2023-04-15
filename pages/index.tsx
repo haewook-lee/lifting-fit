@@ -56,3 +56,11 @@ export default function Home() {
     </ThemeProvider>
   )
 }
+
+export async function getServerSideProps(req: any, res: NextApiResponse) {
+  const user = await checkLoggedIn(req.req, res)
+
+  return {
+    props: { loggedUser: user },
+  }
+}

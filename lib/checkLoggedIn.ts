@@ -5,7 +5,7 @@ import clientPromise from "./mongodb"
 
 export default async function checkLoggedIn(
   req: any,
-  res: NextApiResponse
+  res?: NextApiResponse
 ): Promise<any> {
   interface TokenInterface {
     userId: string

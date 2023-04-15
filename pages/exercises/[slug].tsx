@@ -2,16 +2,9 @@ import React from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
-import Grid from "@mui/material/Grid"
-import Link from "@mui/material/Link"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { useContext, useState } from "react"
-import { NextApiRequest, NextApiResponse } from "next"
 import checkLoggedIn from "../../lib/checkLoggedIn"
-import clientPromise from "../../lib/mongodb"
 import { getExercise } from "../api/exercises/[eid]"
-import { getAllExercises } from "../api/exercises"
-import { GetStaticPaths, GetStaticProps } from "next"
 
 const theme = createTheme()
 
@@ -31,9 +24,6 @@ interface exer {
 
 export default function Home(data: exerObject) {
   const exercise = data.exercises
-
-  // console.log(exercise)
-  // console.log("here", exercise)
 
   return (
     <ThemeProvider theme={theme}>
@@ -57,13 +47,6 @@ export default function Home(data: exerObject) {
             </Typography>
             {exercise && (
               <>
-                {/* <img
-                  src={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format`}
-                  srcSet={`${exercise.image}?fit=fill&fill=solidw=164&h=104&auto=format&dpr=2 2x`}
-                  alt={exercise.name}
-                  loading="lazy"
-                  style={{ width: "100%", height: "auto" }}
-                /> */}
                 <iframe
                   src={exercise.video}
                   allow="autoplay; encrypted-media"
@@ -105,32 +88,41 @@ export default function Home(data: exerObject) {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  let data = await getAllExercises()
-  let parsedData = JSON.parse(JSON.stringify(data)).map(
-    (value: exer) => value.slug
-  )
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   let data = await getAllExercises()
+//   let parsedData = JSON.parse(JSON.stringify(data)).map(
+//     (value: exer) => value.slug
+//   )
 
-  let paths = []
-  for (let slug of parsedData) {
-    paths.push({ params: { slug: slug } })
-  }
+//   let paths = []
+//   for (let slug of parsedData) {
+//     paths.push({ params: { slug: slug } })
+//   }
 
-  // console.log("making", paths)
+//   return {
+//     paths,
+//     fallback: false,
+//   }
+// }
 
-  return {
-    paths,
-    fallback: false,
-  }
-}
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   let exercises = await getExercise(params?.slug ?? "")
+//   exercises = JSON.parse(JSON.stringify(exercises))
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   return {
+//     props: {
+//       exercises,
+//     },
+//   }
+// }
+
+export async function getServerSideProps({ params, req, res }: any) {
+  const user = await checkLoggedIn(req, res)
+
   let exercises = await getExercise(params?.slug ?? "")
   exercises = JSON.parse(JSON.stringify(exercises))
 
   return {
-    props: {
-      exercises,
-    },
+    props: { loggedUser: user, slug: params.slug, exercises: exercises },
   }
 }

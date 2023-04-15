@@ -3,7 +3,6 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { useContext, useState } from "react"
 import { NextApiRequest, NextApiResponse } from "next"
 import checkLoggedIn from "../../lib/checkLoggedIn"
 
@@ -48,8 +47,6 @@ export default function Home() {
 
 export async function getServerSideProps(req: any, res: NextApiResponse) {
   const user = await checkLoggedIn(req.req, res)
-  // console.log("hello", typeof req.req.cookies["token"])
-  // console.log(user)
   if (!user) {
     return {
       redirect: {
@@ -59,9 +56,11 @@ export async function getServerSideProps(req: any, res: NextApiResponse) {
       props: {},
     }
   }
+  // logic to get logged in user's personal logs
+
   return {
     props: {
-      user,
+      loggedUser: user,
     },
   }
 }

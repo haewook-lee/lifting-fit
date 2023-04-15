@@ -141,7 +141,11 @@ export default function SignupPage() {
                   required
                 />
               </FormControl>
-              <Button variant="contained" type="submit">
+              <Button
+                sx={{ width: "95% !important" }}
+                variant="contained"
+                type="submit"
+              >
                 Submit
               </Button>
             </Box>

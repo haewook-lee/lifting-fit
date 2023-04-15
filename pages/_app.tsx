@@ -1,4 +1,4 @@
-import type { AppProps } from "next/app"
+import App, { AppProps, AppContext, AppInitialProps } from "next/app"
 import AppBar from "@mui/material/AppBar"
 import FitnessCenter from "@mui/icons-material/FitnessCenter"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -12,16 +12,27 @@ import { useRouter } from "next/router"
 import { removeCookies } from "cookies-next"
 import DataContext from "../lib/dataContext"
 import { useState, useEffect } from "react"
+import { NextApiRequest, NextApiResponse } from "next"
+import checkLoggedIn from "../lib/checkLoggedIn"
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   const baseurl = process.env.BASEURL
 
   const router = useRouter()
 
+  const [userState, setUserState] = useState(false)
+
   const signoutHandler = () => {
     removeCookies("token")
-    router.push("/")
+    setUserState(false)
+    router.push(baseurl + "/")
   }
+
+  useEffect(() => {
+    if (pageProps.loggedUser) {
+      setUserState(true)
+    }
+  }, [])
 
   // for the copyright footer
   function Copyright() {
@@ -37,58 +48,61 @@ export default function App({ Component, pageProps }: AppProps) {
     )
   }
 
-  // checks whether the user is logged in for not; passes value
-  // down to the components
-  const [loggedUser, setLoggedUser] = useState<string | null>("")
-
-  // checkLoggedIn().then((value: string) => setLoggedUser(value))
-
-  // useEffect(() => {
-  // checkLoggedIn().then((value: string | null) => {
-  //   setLoggedUser(value)
-  // })
-  // }, [])
-
   return (
     <>
       <CssBaseline />
-      <DataContext.Provider value={loggedUser}>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
-            <Toolbar>
-              <ButtonGroup variant="text" aria-label="text button group">
-                <Button color="inherit" href={baseurl + "/"}>
-                  <FitnessCenter />
-                </Button>
-                <Button color="inherit" href={baseurl + "/exercises"}>
-                  Exercises
-                </Button>
-                <Button color="inherit" href={baseurl + "/logs"}>
-                  Logs
-                </Button>
+      {/* <DataContext.Provider value={loggedUser}> */}
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <ButtonGroup variant="text" aria-label="text button group">
+              <Button color="inherit" href={baseurl + "/"}>
+                <FitnessCenter />
+              </Button>
+              <Button color="inherit" href={baseurl + "/exercises"}>
+                Exercises
+              </Button>
+              <Button color="inherit" href={baseurl + "/logs"}>
+                Logs
+              </Button>
+              {!userState && (
                 <Button color="inherit" href={baseurl + "/login"}>
                   Login
                 </Button>
-              </ButtonGroup>
-            </Toolbar>
-          </AppBar>
-        </Box>
-        {/* Component */}
-        <Component {...pageProps} />
-        {/* Footer */}
-        <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
-          <Typography
-            variant="subtitle1"
-            align="center"
-            color="text.secondary"
-            component="p"
-          >
-            Created using NextJS and MongoDB
-          </Typography>
-          <Copyright />
-        </Box>
-        {/* End footer */}
-      </DataContext.Provider>
+              )}
+              {userState && (
+                <Button color="inherit" onClick={() => signoutHandler()}>
+                  Logout
+                </Button>
+              )}
+            </ButtonGroup>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      {/* Component */}
+      <Component {...pageProps} />
+      {/* Footer */}
+      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="text.secondary"
+          component="p"
+        >
+          Created using NextJS and MongoDB
+        </Typography>
+        <Copyright />
+      </Box>
+      {/* End footer */}
+      {/* </DataContext.Provider> */}
     </>
   )
+}
+
+MyApp.getInitialProps = async (
+  context: AppContext
+): Promise<AppInitialProps> => {
+  const ctx = await App.getInitialProps(context)
+
+  return { ...ctx }
 }

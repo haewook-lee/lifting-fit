@@ -5,10 +5,7 @@ import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
 import Link from "@mui/material/Link"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { useContext, useState } from "react"
-import { NextApiRequest, NextApiResponse } from "next"
 import checkLoggedIn from "../../lib/checkLoggedIn"
-import clientPromise from "../../lib/mongodb"
 import { getAllExercises } from "../api/exercises"
 
 const theme = createTheme()
@@ -94,11 +91,22 @@ export default function Home(exercises: exerObject) {
   )
 }
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
+//   let exercises = await getAllExercises()
+//   exercises = JSON.parse(JSON.stringify(exercises))
+
+//   return {
+//     props: { exercises: exercises },
+//   }
+// }
+
+export async function getServerSideProps({ params, req, res }: any) {
+  const user = await checkLoggedIn(req, res)
+
   let exercises = await getAllExercises()
   exercises = JSON.parse(JSON.stringify(exercises))
 
   return {
-    props: { exercises: exercises },
+    props: { loggedUser: user, exercises: exercises },
   }
 }

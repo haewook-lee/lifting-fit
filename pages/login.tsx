@@ -15,7 +15,6 @@ import InputLabel from "@mui/material/InputLabel"
 import IconButton from "@mui/material/IconButton"
 import { useRouter } from "next/router"
 import axios from "axios"
-import DataContext from "../lib/dataContext"
 import { NextApiRequest, NextApiResponse } from "next"
 import checkLoggedIn from "../lib/checkLoggedIn"
 
@@ -25,6 +24,7 @@ const baseurl = process.env.BASEURL
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -38,20 +38,21 @@ export default function LoginPage() {
 
   const router = useRouter()
 
-  const loggedUser = useContext(DataContext)
-
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
-      const res = await axios.post(baseurl + "/api/login", {
-        email: email,
-        password: password,
-      })
+      const res = await axios
+        .post(baseurl + "/api/login", {
+          email: email,
+          password: password,
+        })
+        .then((response) => window.location.reload())
 
       router.push(baseurl + "/")
     } catch (error) {
       console.log(error)
+      setErrorMessage("Invalid Email/Password")
     }
   }
 
@@ -102,6 +103,18 @@ export default function LoginPage() {
               autoComplete="off"
               onSubmit={loginHandler}
             >
+              {errorMessage !== "" && (
+                <Typography
+                  component="h1"
+                  variant="h5"
+                  align="center"
+                  color="red"
+                  gutterBottom
+                >
+                  {errorMessage}
+                </Typography>
+              )}
+
               <TextField
                 id="outlined-basic margin-none fullWidth"
                 label="Email"
@@ -133,7 +146,11 @@ export default function LoginPage() {
                   required
                 />
               </FormControl>
-              <Button variant="contained" type="submit">
+              <Button
+                sx={{ width: "95% !important" }}
+                variant="contained"
+                type="submit"
+              >
                 Submit
               </Button>
               <Typography
@@ -164,7 +181,7 @@ export async function getServerSideProps(req: any, res: NextApiResponse) {
         permanent: false,
         destination: `${baseurl + "/"}`,
       },
-      props: {},
+      props: { loggedUser: user },
     }
   }
   return {
