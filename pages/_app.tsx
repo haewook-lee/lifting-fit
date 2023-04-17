@@ -12,8 +12,8 @@ import { useRouter } from "next/router"
 import { removeCookies } from "cookies-next"
 import DataContext from "../lib/dataContext"
 import { useState, useEffect } from "react"
-import { NextApiRequest, NextApiResponse } from "next"
-import checkLoggedIn from "../lib/checkLoggedIn"
+import { LocalizationProvider } from "@mui/x-date-pickers"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const baseurl = process.env.BASEURL
@@ -52,48 +52,50 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       <CssBaseline />
       {/* <DataContext.Provider value={loggedUser}> */}
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <ButtonGroup variant="text" aria-label="text button group">
-              <Button color="inherit" href={baseurl + "/"}>
-                <FitnessCenter />
-              </Button>
-              <Button color="inherit" href={baseurl + "/exercises"}>
-                Exercises
-              </Button>
-              <Button color="inherit" href={baseurl + "/logs"}>
-                Logs
-              </Button>
-              {!userState && (
-                <Button color="inherit" href={baseurl + "/login"}>
-                  Login
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="static">
+            <Toolbar>
+              <ButtonGroup variant="text" aria-label="text button group">
+                <Button color="inherit" href={baseurl + "/"}>
+                  <FitnessCenter />
                 </Button>
-              )}
-              {userState && (
-                <Button color="inherit" onClick={() => signoutHandler()}>
-                  Logout
+                <Button color="inherit" href={baseurl + "/exercises"}>
+                  Exercises
                 </Button>
-              )}
-            </ButtonGroup>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      {/* Component */}
-      <Component {...pageProps} />
-      {/* Footer */}
-      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Created using NextJS and MongoDB
-        </Typography>
-        <Copyright />
-      </Box>
-      {/* End footer */}
+                <Button color="inherit" href={baseurl + "/logs"}>
+                  Logs
+                </Button>
+                {!userState && (
+                  <Button color="inherit" href={baseurl + "/login"}>
+                    Login
+                  </Button>
+                )}
+                {userState && (
+                  <Button color="inherit" onClick={() => signoutHandler()}>
+                    Logout
+                  </Button>
+                )}
+              </ButtonGroup>
+            </Toolbar>
+          </AppBar>
+        </Box>
+        {/* Component */}
+        <Component {...pageProps} />
+        {/* Footer */}
+        <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
+          <Typography
+            variant="subtitle1"
+            align="center"
+            color="text.secondary"
+            component="p"
+          >
+            Created using NextJS and MongoDB
+          </Typography>
+          <Copyright />
+        </Box>
+        {/* End footer */}
+      </LocalizationProvider>
       {/* </DataContext.Provider> */}
     </>
   )
