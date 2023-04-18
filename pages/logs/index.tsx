@@ -25,7 +25,7 @@ function CustomActionBar(props: PickersActionBarProps) {
   const localeText = useLocaleText()
 
   return (
-    <DialogActions className={className}>
+    <DialogActions className={className} style={{ justifyContent: "center" }}>
       <Button
         data-mui-test="today-action-button"
         onClick={() => {
@@ -37,9 +37,9 @@ function CustomActionBar(props: PickersActionBarProps) {
       </Button>
       <Button
         data-mui-test="today-action-button"
-        onClick={() => {
-          onSetToday()
-        }}
+        // onClick={() => {
+        //   onSetToday()
+        // }}
         variant="contained"
       >
         Add Workout
@@ -67,12 +67,8 @@ export default function Home(props: LogProps) {
     setHighlightedDays(highlightedDays)
   }, [])
 
-  // console.log("here", props.userLogs)
-  // console.log("there", highlightedDays)
-
   const handleChange = (newValue: any) => {
     setCurrentDay(newValue.format("YYYY-MM-DD"))
-    // console.log("changed", currentDay)
   }
 
   return (
@@ -103,7 +99,6 @@ export default function Home(props: LogProps) {
             >
               Your personal workout logs
             </Typography>
-            <Button>Add Workout/Exercise</Button>
             <StaticDatePicker
               slots={{
                 actionBar: CustomActionBar,
@@ -129,6 +124,81 @@ export default function Home(props: LogProps) {
               }}
               onChange={handleChange}
             />
+            <br />
+            {props.userLogs.map((value: any) => {
+              if (currentDay === value.date) {
+                return (
+                  <>
+                    <Typography
+                      variant="h3"
+                      align="center"
+                      color="text.secondary"
+                      paragraph
+                    >
+                      Workout Log
+                    </Typography>
+                    {value.exercises &&
+                      Object.keys(value.exercises).map((muscle: any) => {
+                        // console.log("hello", muscle, value.exercises[muscle])
+                        return (
+                          <>
+                            <Typography
+                              variant="h4"
+                              align="left"
+                              color="text.secondary"
+                              paragraph
+                            >
+                              {muscle}
+                            </Typography>
+                            {Object.keys(value.exercises[muscle]) &&
+                              Object.keys(value.exercises[muscle]).map(
+                                (exercise: any) => {
+                                  // console.log(
+                                  //   "it",
+                                  //   value.exercises[muscle][exercise]
+                                  // )
+                                  return (
+                                    <>
+                                      <Typography
+                                        variant="h6"
+                                        align="left"
+                                        color="text.secondary"
+                                        paragraph
+                                      >
+                                        {exercise}
+                                      </Typography>
+                                      {value.exercises[muscle][exercise]
+                                        .length > 0 &&
+                                        value.exercises[muscle][exercise].map(
+                                          (sets: string, index: number) => {
+                                            return (
+                                              <>
+                                                <Typography
+                                                  variant="h6"
+                                                  align="left"
+                                                  color="text.secondary"
+                                                  paragraph
+                                                >
+                                                  Set {index + 1}:{" "}
+                                                  {sets.split(",")[0]} reps of{" "}
+                                                  {sets.split(",")[1] || "0"}{" "}
+                                                  lbs.
+                                                </Typography>
+                                              </>
+                                            )
+                                          }
+                                        )}
+                                    </>
+                                  )
+                                }
+                              )}
+                          </>
+                        )
+                      })}
+                  </>
+                )
+              }
+            })}
           </Container>
         </Box>
       </main>
@@ -163,7 +233,6 @@ export async function getServerSideProps(req: any, res: NextApiResponse) {
   const userLogs = JSON.parse(JSON.stringify(theLogs))
 
   const logDates = userLogs.map((value: any) => value.date)
-  console.log(logDates)
 
   return {
     props: {

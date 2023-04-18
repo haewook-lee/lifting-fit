@@ -47,8 +47,17 @@ export default function Home() {
               color="text.secondary"
               paragraph
             >
-              Note: Do not use any important credentials for user login if
-              you're testing it out!
+              Welcome! This is a proof-of-concept, so please do not use
+              sensitive user credentials!
+            </Typography>
+            <Typography
+              variant="h5"
+              align="center"
+              color="text.secondary"
+              paragraph
+            >
+              If you want to see what the app can do, try logging in with
+              username: <b>hello@world.com</b> and password: <b>worldstar</b>
             </Typography>
           </Container>
         </Box>

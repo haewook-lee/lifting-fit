@@ -7,8 +7,11 @@ TO-DO LIST
     - token creation x
     - store token x
     - page keep track of user x
-    - profile page?
+    - profile page x
 - WORKOUT LOGS
+  - allow marking on calendar x
+  - display exercises from selected day x
+  - allow editing of log for day
 - DATA VISUALIZATION
 
 ## Example app using MongoDB
