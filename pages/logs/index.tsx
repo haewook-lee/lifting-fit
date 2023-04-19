@@ -17,12 +17,17 @@ import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker"
 import { PickersActionBarProps } from "@mui/x-date-pickers/PickersActionBar"
 import { useLocaleText } from "@mui/x-date-pickers/internals"
 
+import DialogSelect from "../../components/DialogSelect"
+import { ListIndexesCursor } from "mongodb"
+import { getAllExercises } from "../api/exercises"
+
 const theme = createTheme()
 const baseurl = process.env.BASEURL
 
-function CustomActionBar(props: PickersActionBarProps) {
+function CustomActionBar(props: any) {
   const { onAccept, onClear, onCancel, onSetToday, actions, className } = props
   const localeText = useLocaleText()
+  const exercises = props.props.exercises
 
   return (
     <DialogActions className={className} style={{ justifyContent: "center" }}>
@@ -35,15 +40,16 @@ function CustomActionBar(props: PickersActionBarProps) {
       >
         {localeText.todayButtonLabel}
       </Button>
-      <Button
+      {/* <Button
         data-mui-test="today-action-button"
-        // onClick={() => {
-        //   onSetToday()
-        // }}
+        onClick={() => {
+          onSetToday()
+        }}
         variant="contained"
       >
         Add Workout
-      </Button>
+      </Button> */}
+      <DialogSelect data={props} />
     </DialogActions>
   )
 }
@@ -51,6 +57,7 @@ function CustomActionBar(props: PickersActionBarProps) {
 type LogProps = {
   userLogs: any
   logDates: string[]
+  exercises: any
 }
 
 export default function Home(props: LogProps) {
@@ -118,6 +125,10 @@ export default function Home(props: LogProps) {
                 },
               }}
               slotProps={{
+                actionBar: {
+                  props,
+                  currentDay,
+                } as any,
                 day: {
                   highlightedDays,
                 } as any,
@@ -134,6 +145,7 @@ export default function Home(props: LogProps) {
                       align="center"
                       color="text.secondary"
                       paragraph
+                      key={value}
                     >
                       Workout Log
                     </Typography>
@@ -147,6 +159,7 @@ export default function Home(props: LogProps) {
                               align="left"
                               color="text.secondary"
                               paragraph
+                              key={muscle}
                             >
                               {muscle}
                             </Typography>
@@ -164,6 +177,7 @@ export default function Home(props: LogProps) {
                                         align="left"
                                         color="text.secondary"
                                         paragraph
+                                        key={exercise}
                                       >
                                         {exercise}
                                       </Typography>
@@ -178,6 +192,7 @@ export default function Home(props: LogProps) {
                                                   align="left"
                                                   color="text.secondary"
                                                   paragraph
+                                                  key={sets}
                                                 >
                                                   Set {index + 1}:{" "}
                                                   {sets.split(",")[0]} reps of{" "}
@@ -234,11 +249,16 @@ export async function getServerSideProps(req: any, res: NextApiResponse) {
 
   const logDates = userLogs.map((value: any) => value.date)
 
+  // get all exercises in database
+  let exercises = await getAllExercises()
+  exercises = JSON.parse(JSON.stringify(exercises))
+
   return {
     props: {
       loggedUser: user,
       userLogs: userLogs,
       logDates: logDates,
+      exercises: exercises,
     },
   }
 }
