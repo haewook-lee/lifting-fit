@@ -18,7 +18,6 @@ import { PickersActionBarProps } from "@mui/x-date-pickers/PickersActionBar"
 import { useLocaleText } from "@mui/x-date-pickers/internals"
 
 import DialogSelect from "../../components/DialogSelect"
-import { ListIndexesCursor } from "mongodb"
 import { getAllExercises } from "../api/exercises"
 
 const theme = createTheme()
@@ -27,7 +26,6 @@ const baseurl = process.env.BASEURL
 function CustomActionBar(props: any) {
   const { onAccept, onClear, onCancel, onSetToday, actions, className } = props
   const localeText = useLocaleText()
-  const exercises = props.props.exercises
 
   return (
     <DialogActions className={className} style={{ justifyContent: "center" }}>
@@ -61,18 +59,20 @@ type LogProps = {
 }
 
 export default function Home(props: LogProps) {
-  // const requestAbortController = React.useRef<AbortController | null>(null)
-  // const [isLoading, setIsLoading] = React.useState(false)
   const [highlightedDays, setHighlightedDays] = React.useState(props.logDates)
-  // const [highlightedDays, setHighlightedDays] = useState([1, 2, 13])
+  const [userLogs, setUserLogs] = React.useState(props.userLogs)
 
   const initialValue = dayjs().format("YYYY-MM-DD")
 
   const [currentDay, setCurrentDay] = useState(initialValue)
 
   useEffect(() => {
-    setHighlightedDays(highlightedDays)
-  }, [])
+    setHighlightedDays(props.logDates)
+  }, [props.logDates])
+
+  useEffect(() => {
+    setUserLogs(props.userLogs)
+  }, [props.userLogs])
 
   const handleChange = (newValue: any) => {
     setCurrentDay(newValue.format("YYYY-MM-DD"))
@@ -136,7 +136,7 @@ export default function Home(props: LogProps) {
               onChange={handleChange}
             />
             <br />
-            {props.userLogs.map((value: any) => {
+            {userLogs.map((value: any) => {
               if (currentDay === value.date) {
                 return (
                   <>
@@ -238,7 +238,11 @@ export async function getServerSideProps(req: any, res: NextApiResponse) {
   const getAllLogs = async () => {
     const mongoClient = await clientPromise
 
-    const logData = mongoClient.db("logs").collection("hello").find().toArray()
+    const logData = mongoClient
+      .db("logs")
+      .collection(user.username)
+      .find()
+      .toArray()
 
     return logData
   }
@@ -250,7 +254,7 @@ export async function getServerSideProps(req: any, res: NextApiResponse) {
   const logDates = userLogs.map((value: any) => value.date)
 
   // get all exercises in database
-  let exercises = await getAllExercises()
+  let exercises: any = await getAllExercises()
   exercises = JSON.parse(JSON.stringify(exercises))
 
   return {

@@ -10,13 +10,37 @@ import OutlinedInput from "@mui/material/OutlinedInput"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
+import axios from "axios"
+import { useRouter } from "next/router"
+import { DialogContentText } from "@mui/material"
+
+type Exercise = {
+  equipment: string
+  image: string
+  name: string
+  slug: string
+  target: string
+  type: string
+  video: string
+}
+
+const baseurl = process.env.BASEURL
 
 export default function DialogSelect(data?: any) {
   const [open, setOpen] = React.useState(false)
-  const [muscle, setMuscle] = React.useState<number | string>("")
-  const [exercise, setExercise] = React.useState<number | string>("")
+  const [muscle, setMuscle] = React.useState<string>("")
+  const [exercise, setExercise] = React.useState<string>("")
+  const [errorMessage, setErrorMessage] = React.useState<string>("")
 
   const exerciseList = data.data.props.exercises
+  const currentDay: string = data.data.currentDay
+  const loggedUser: string = data.data.props.loggedUser.username
+
+  const router = useRouter()
+
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
 
   const handleMuscleChange = (event: SelectChangeEvent<typeof muscle>) => {
     setMuscle(event.target.value || "")
@@ -40,7 +64,35 @@ export default function DialogSelect(data?: any) {
       setOpen(false)
     }
   }
-  console.log(muscle, exercise)
+  // console.log(muscle, exercise)
+  // console.log(data)
+
+  const addExerciseHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (muscle === "" || exercise === "") {
+      setErrorMessage("Please enter Target/Exercise")
+      return
+    }
+
+    try {
+      const res = await axios.post(baseurl + "/api/logs", {
+        user: loggedUser,
+        date: currentDay,
+        target: muscle,
+        exercise: exercise,
+      })
+      if (res.status < 300) {
+        refreshData()
+      }
+      setMuscle("")
+      setExercise("")
+      setOpen(false)
+    } catch (error: any) {
+      console.log(error)
+      setErrorMessage(error.response.data.message)
+    }
+  }
 
   return (
     <div>
@@ -50,7 +102,11 @@ export default function DialogSelect(data?: any) {
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Add Workout</DialogTitle>
         <DialogContent>
-          <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+          <Box
+            component="form"
+            sx={{ display: "flex", flexWrap: "wrap" }}
+            onSubmit={addExerciseHandler}
+          >
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-dialog-select-label">Target</InputLabel>
               <Select
@@ -95,7 +151,7 @@ export default function DialogSelect(data?: any) {
                     </div>
                   )
                 })} */}
-                {exerciseList.map((movement: any) => [
+                {exerciseList.map((movement: Exercise) => [
                   movement.target === muscle && (
                     <MenuItem value={movement.name} key={movement.name}>
                       {movement.name}
@@ -104,12 +160,17 @@ export default function DialogSelect(data?: any) {
                 ])}
               </Select>
             </FormControl>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button type="submit">Ok</Button>
+            </DialogActions>
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Ok</Button>
-        </DialogActions>
+        {errorMessage !== "" && (
+          <DialogTitle sx={{ color: "red", marginTop: 0, paddingTop: 0 }}>
+            {errorMessage}
+          </DialogTitle>
+        )}
       </Dialog>
     </div>
   )
