@@ -73,6 +73,8 @@ export default function DialogSelect(data?: any) {
     if (muscle === "" || exercise === "") {
       setErrorMessage("Please enter Target/Exercise")
       return
+    } else {
+      setErrorMessage("")
     }
 
     try {

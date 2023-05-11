@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import clientPromise from "../../../lib/mongodb"
-import { StringExpression } from "mongoose"
 
 export const getAllLogs = async (user: string) => {
   const mongoClient = await clientPromise
@@ -8,10 +7,6 @@ export const getAllLogs = async (user: string) => {
   const data = mongoClient.db("logs").collection(user).find().toArray()
 
   return data
-}
-
-export const updateLogs = async () => {
-  const mongoClient = await clientPromise
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

@@ -20,6 +20,8 @@ import { useLocaleText } from "@mui/x-date-pickers/internals"
 import DialogSelect from "../../components/DialogSelect"
 import { getAllExercises } from "../api/exercises"
 
+import DialogSelectSets from "../../components/DialogSelectSets"
+
 const theme = createTheme()
 const baseurl = process.env.BASEURL
 
@@ -166,10 +168,6 @@ export default function Home(props: LogProps) {
                             {Object.keys(value.exercises[muscle]) &&
                               Object.keys(value.exercises[muscle]).map(
                                 (exercise: any) => {
-                                  // console.log(
-                                  //   "it",
-                                  //   value.exercises[muscle][exercise]
-                                  // )
                                   return (
                                     <>
                                       <Typography
@@ -180,7 +178,15 @@ export default function Home(props: LogProps) {
                                         key={exercise}
                                       >
                                         {exercise}
+                                        <Button>-</Button>
+                                        <DialogSelectSets
+                                          target={muscle}
+                                          exercise={exercise}
+                                          data={props}
+                                          day={currentDay}
+                                        />
                                       </Typography>
+
                                       {value.exercises[muscle][exercise]
                                         .length > 0 &&
                                         value.exercises[muscle][exercise].map(
@@ -198,6 +204,7 @@ export default function Home(props: LogProps) {
                                                   {sets.split(",")[0]} reps of{" "}
                                                   {sets.split(",")[1] || "0"}{" "}
                                                   lbs.
+                                                  <Button>-</Button>
                                                 </Typography>
                                               </>
                                             )
