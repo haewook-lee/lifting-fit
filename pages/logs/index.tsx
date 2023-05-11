@@ -233,7 +233,8 @@ export default function Home(props: LogProps) {
                                                   key={sets}
                                                 >
                                                   Set {index + 1}:{" "}
-                                                  {sets.split(",")[0]} reps of{" "}
+                                                  {sets.split(",")[0] || "0"}{" "}
+                                                  reps of{" "}
                                                   {sets.split(",")[1] || "0"}{" "}
                                                   lbs.
                                                   <Button
