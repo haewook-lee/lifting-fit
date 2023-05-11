@@ -21,6 +21,8 @@ import DialogSelect from "../../components/DialogSelect"
 import { getAllExercises } from "../api/exercises"
 
 import DialogSelectSets from "../../components/DialogSelectSets"
+import axios from "axios"
+import { useRouter } from "next/router"
 
 const theme = createTheme()
 const baseurl = process.env.BASEURL
@@ -55,9 +57,31 @@ function CustomActionBar(props: any) {
 }
 
 type LogProps = {
+  loggedUser: any
   userLogs: any
   logDates: string[]
   exercises: any
+}
+
+const deleteSetHandler = async (
+  user: string,
+  date: string,
+  target: string,
+  exercise: string,
+  index: number
+) => {
+  console.log("hah", user, date, target, exercise, index)
+  try {
+    const res = await axios.post(baseurl + "/api/logs/delete-set", {
+      user: user,
+      date: date,
+      target: target,
+      exercise: exercise,
+      index: index,
+    })
+  } catch (error: any) {
+    console.log(error.response.data.message)
+  }
 }
 
 export default function Home(props: LogProps) {
@@ -67,6 +91,14 @@ export default function Home(props: LogProps) {
   const initialValue = dayjs().format("YYYY-MM-DD")
 
   const [currentDay, setCurrentDay] = useState(initialValue)
+
+  const user: string = props.loggedUser.username
+
+  const router = useRouter()
+
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
 
   useEffect(() => {
     setHighlightedDays(props.logDates)
@@ -204,7 +236,20 @@ export default function Home(props: LogProps) {
                                                   {sets.split(",")[0]} reps of{" "}
                                                   {sets.split(",")[1] || "0"}{" "}
                                                   lbs.
-                                                  <Button>-</Button>
+                                                  <Button
+                                                    onClick={() => {
+                                                      deleteSetHandler(
+                                                        user,
+                                                        currentDay,
+                                                        muscle,
+                                                        exercise,
+                                                        index
+                                                      )
+                                                      refreshData()
+                                                    }}
+                                                  >
+                                                    -
+                                                  </Button>
                                                 </Typography>
                                               </>
                                             )
