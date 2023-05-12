@@ -72,8 +72,8 @@ export default function DialogSelectSets({
       if (res.status < 300) {
         refreshData()
       }
-      setRep("")
-      setWeight("")
+      // setRep("")
+      // setWeight("")
     } catch (error: any) {
       console.log(error.response.data.message)
       setErrorMessage(error.response.data.message)
