@@ -26,8 +26,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return response
     }
 
-    const deletedExercise = await deleteExercise(req.body)
+    const noExercise = async (log: any) => {
+      const response = await mongoClient
+        .db("logs")
+        .collection(log.user)
+        .deleteOne({
+          date: log.date,
+          exercises: {},
+        })
 
-    res.status(200).json({ deletedExercise })
+      return response
+    }
+
+    const deletedExercise = await deleteExercise(req.body)
+    const noExerciseDate = await noExercise(req.body)
+
+    res.status(200).json({
+      deletedExercise,
+      noExerciseDate,
+    })
   }
 }
