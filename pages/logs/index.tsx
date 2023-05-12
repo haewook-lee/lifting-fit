@@ -63,6 +63,24 @@ type LogProps = {
   exercises: any
 }
 
+const deleteExerciseHandler = async (
+  user: string,
+  date: string,
+  target: string,
+  exercise: string
+) => {
+  try {
+    const res = await axios.post(baseurl + "/api/logs/delete", {
+      user: user,
+      date: date,
+      target: target,
+      exercise: exercise,
+    })
+  } catch (error: any) {
+    console.log(error.response.data.message)
+  }
+}
+
 const deleteSetHandler = async (
   user: string,
   date: string,
@@ -109,6 +127,27 @@ export default function Home(props: LogProps) {
 
   const handleChange = (newValue: any) => {
     setCurrentDay(newValue.format("YYYY-MM-DD"))
+  }
+
+  const deleteExercise = async (
+    user: string,
+    date: string,
+    target: string,
+    exercise: string
+  ) => {
+    deleteExerciseHandler(user, date, target, exercise)
+    refreshData()
+  }
+
+  const deleteSet = async (
+    user: string,
+    date: string,
+    target: string,
+    exercise: string,
+    index: number
+  ) => {
+    deleteSetHandler(user, date, target, exercise, index)
+    refreshData()
   }
 
   return (
@@ -209,7 +248,18 @@ export default function Home(props: LogProps) {
                                         key={exercise}
                                       >
                                         {exercise}
-                                        <Button>-</Button>
+                                        <Button
+                                          onClick={() => {
+                                            deleteExercise(
+                                              user,
+                                              currentDay,
+                                              muscle,
+                                              exercise
+                                            )
+                                          }}
+                                        >
+                                          -
+                                        </Button>
                                         <DialogSelectSets
                                           target={muscle}
                                           exercise={exercise}
@@ -238,14 +288,13 @@ export default function Home(props: LogProps) {
                                                   lbs.
                                                   <Button
                                                     onClick={() => {
-                                                      deleteSetHandler(
+                                                      deleteSet(
                                                         user,
                                                         currentDay,
                                                         muscle,
                                                         exercise,
                                                         index
                                                       )
-                                                      refreshData()
                                                     }}
                                                   >
                                                     -
