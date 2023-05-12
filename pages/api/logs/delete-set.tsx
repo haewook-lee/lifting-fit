@@ -5,8 +5,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const mongoClient = await clientPromise
 
-    console.log(req.body)
-
     // delete set
     // first function picks an array element and makes it null
     // second function removes all null elements from an array

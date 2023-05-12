@@ -51,14 +51,14 @@ export default function DialogSelectSets({
 
   const addSetHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log({
-      user: data.loggedUser,
-      date: day,
-      target: target,
-      exercise: exercise,
-      rep: rep,
-      weight: weight,
-    })
+    // console.log({
+    //   user: data.loggedUser,
+    //   date: day,
+    //   target: target,
+    //   exercise: exercise,
+    //   rep: rep,
+    //   weight: weight,
+    // })
 
     try {
       const res = await axios.post(baseurl + "/api/logs/sets", {

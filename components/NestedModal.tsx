@@ -113,7 +113,6 @@ export default function NestedModal(data?: any) {
   const handleMuscle = (event: React.MouseEvent<HTMLButtonElement>) => {
     // setTarget(event.currentTarget)
     setAnchorEl(null)
-    console.log(target)
   }
 
   const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null)
@@ -124,8 +123,6 @@ export default function NestedModal(data?: any) {
   const handleClose2 = () => {
     setAnchorEl1(null)
   }
-
-  console.log(target)
 
   return (
     <>

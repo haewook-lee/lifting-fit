@@ -13,8 +13,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     const data = await getAllLogs("hello")
 
-    console.log(req)
-
     res.status(200).json({ logs: JSON.parse(JSON.stringify(data)) })
   }
   if (req.method === "POST") {

@@ -70,7 +70,6 @@ const deleteSetHandler = async (
   exercise: string,
   index: number
 ) => {
-  console.log("hah", user, date, target, exercise, index)
   try {
     const res = await axios.post(baseurl + "/api/logs/delete-set", {
       user: user,

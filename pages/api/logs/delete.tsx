@@ -5,8 +5,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const mongoClient = await clientPromise
 
-    console.log(req.body)
-
     // delete set
     const deleteSet = async (log: any) => {
       const target = log.target

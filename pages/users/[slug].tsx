@@ -19,7 +19,6 @@ type userProps = {
 
 // export default function Home(data: userObject) {
 export default function Home(user: userProps) {
-  console.log("ayo", user)
   return (
     <ThemeProvider theme={theme}>
       <main>
